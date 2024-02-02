@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(90deg, rgba(93, 99, 204, 1) 0%, rgba(245, 240, 242, 1) 100%, rgba(0, 212, 255, 1) 100%);
+            font-family: monospace, sans-serif;
+            color: #0d5370;
+        }
+
+        .container {
+            background: rgba(0, 212, 255, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 4px 10px rgba(0, 0, 0, 0.3);
+            width: 85%;
+            max-width: 800px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .heading {
+            font-size: 32px;
+        }
+
+        .temp-container {
+            width: 100%;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        input {
+            width: 60%;
+            font-family: monospace;
+            padding: 5px;
+            outline: none;
+            background: rgba(0, 212, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+            color: darkblue;
+            font-size: 18px;
+        }
+
+        input::placeholder {
+            color: crimson;
+        }
+
+        /* Responsive CSS */
+        @media (min-width: 600px) {
+            .container {
+                width: 70%;
+            }
+
+            input {
+                width: 50%;
+            }
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                width: 60%;
+            }
+
+            input {
+                width: 40%;
+            }
+        }
+    </style>
+    <title>Temperature Wizard</title>
+</head>
+<body>
+    <div class="container">
+        <h2 class="heading">Temperature Wizard</h2>
+        <form id="temperatureForm">
+            <div class="temp-container">
+                <label for="temperature">Enter Temperature:</label>
+                <input type="number" id="temperature" name="temperature" required>
+            </div>
+            
+            <div class="temp-container">
+                <label for="unit">Select Unit:</label>
+                <select id="unit" name="unit">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                    <option value="kelvin">Kelvin</option>
+                </select>
+            </div>
+
+            <div class="temp-container">
+                <button type="button" onclick="convertTemperature()">Convert</button>
+            </div>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convertTemperature() {
+            var temperatureInput = document.getElementById('temperature').value;
+            var unitInput = document.getElementById('unit').value;
+
+            var resultContainer = document.getElementById('result');
+
+            if (isNaN(temperatureInput)) {
+                resultContainer.innerHTML = 'Please enter a valid number for temperature.';
+                return;
+            }
+
+            var convertedTemperature;
+
+            switch (unitInput) {
+                case 'celsius':
+                    convertedTemperature = temperatureInput;
+                    break;
+                case 'fahrenheit':
+                    convertedTemperature = (temperatureInput * 9/5) + 32;
+                    break;
+                case 'kelvin':
+                    convertedTemperature = parseFloat(temperatureInput) + 273.15;
+                    break;
+                default:
+                    convertedTemperature = 'Invalid unit';
+                    break;
+            }
+
+            resultContainer.innerHTML = `Converted Temperature: ${convertedTemperature.toFixed(2)} ${unitInput.toUpperCase()}`;
+        }
+    </script>
+</body>
+</html>
